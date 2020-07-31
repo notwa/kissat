@@ -3,7 +3,7 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include <stdbool.h>
+#include "badbool.h"
 
 #define BLUE "\033[34m"
 #define BOLD "\033[1m"

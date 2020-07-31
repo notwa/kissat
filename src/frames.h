@@ -4,7 +4,7 @@
 #include "literal.h"
 #include "stack.h"
 
-#include <stdbool.h>
+#include "badbool.h"
 
 typedef struct frame frame;
 

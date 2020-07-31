@@ -212,7 +212,7 @@ kissat_options_get (const char *name)
 #include "format.h"
 
 #include <assert.h>
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdlib.h>
 
 static void

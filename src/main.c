@@ -5,7 +5,7 @@
 #include "print.h"
 
 #include <assert.h>
-#include <stdbool.h>
+#include "badbool.h"
 
 static kissat *solver;
 

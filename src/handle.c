@@ -2,19 +2,27 @@
 
 #include <assert.h>
 #include <signal.h>
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdio.h>
 
 static void (*handler) (int);
 static volatile int caught_signal;
 static volatile bool handler_set;
 
+#ifdef _WIN32
+#define SIGNALS \
+SIGNAL(SIGABRT) \
+SIGNAL(SIGINT) \
+SIGNAL(SIGSEGV) \
+SIGNAL(SIGTERM)
+#else
 #define SIGNALS \
 SIGNAL(SIGABRT) \
 SIGNAL(SIGBUS) \
 SIGNAL(SIGINT) \
 SIGNAL(SIGSEGV) \
 SIGNAL(SIGTERM)
+#endif
 
 // *INDENT-OFF*
 
@@ -30,8 +38,10 @@ kissat_signal_name (int sig)
   if (sig == SIG) return #SIG;
   SIGNALS
 #undef SIGNAL
+#ifndef _WIN32
   if (sig == SIGALRM)
     return "SIGALRM";
+#endif
   return "SIGUNKNOWN";
 }
 
@@ -77,9 +87,12 @@ kissat_init_signal_handler (void (*h) (int sig))
 
 static volatile bool caught_alarm;
 static volatile bool alarm_handler_set;
+#ifndef _WIN32
 static void (*SIGALRM_handler) (int);
+#endif
 static void (*handle_alarm) ();
 
+#ifndef _WIN32
 static void
 catch_alarm (int sig)
 {
@@ -92,6 +105,7 @@ catch_alarm (int sig)
   caught_alarm = true;
   handle_alarm ();
 }
+#endif
 
 void
 kissat_init_alarm (void (*handler) (void))
@@ -101,7 +115,9 @@ kissat_init_alarm (void (*handler) (void))
   handle_alarm = handler;
   alarm_handler_set = true;
   assert (!SIGALRM_handler);
+#ifndef _WIN32
   SIGALRM_handler = signal (SIGALRM, catch_alarm);
+#endif
 }
 
 void
@@ -111,5 +127,7 @@ kissat_reset_alarm (void)
   assert (handle_alarm);
   alarm_handler_set = false;
   handle_alarm = 0;
+#ifndef _WIN32
   (void) signal (SIGALRM, SIGALRM_handler);
+#endif
 }

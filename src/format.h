@@ -3,7 +3,7 @@
 
 #include "utilities.h"
 
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdint.h>
 
 #define NUM_FORMAT_STRINGS 4

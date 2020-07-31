@@ -1,7 +1,7 @@
 #ifndef _ands_h_INCLUDED
 #define _ands_h_INCLUDED
 
-#include <stdbool.h>
+#include "badbool.h"
 
 struct kissat;
 
