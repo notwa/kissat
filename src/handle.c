@@ -1,7 +1,7 @@
 #include "handle.h"
 
 #include <assert.h>
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdio.h>
 
 static void (*handler) (int);
@@ -60,6 +60,7 @@ static volatile bool alarm_handler_set;
 static void (*volatile SIGALRM_handler) (int);
 static void (*volatile handle_alarm) ();
 
+#ifndef _WIN32
 static void
 catch_alarm (int sig)
 {
@@ -74,6 +75,7 @@ catch_alarm (int sig)
   assert (handler);
   handler ();
 }
+#endif
 
 void
 kissat_init_alarm (void (*handler) (void))
@@ -83,7 +85,9 @@ kissat_init_alarm (void (*handler) (void))
   handle_alarm = handler;
   alarm_handler_set = true;
   assert (!SIGALRM_handler);
+#ifndef _WIN32
   SIGALRM_handler = signal (SIGALRM, catch_alarm);
+#endif
 }
 
 void
@@ -93,5 +97,7 @@ kissat_reset_alarm (void)
   assert (handle_alarm);
   alarm_handler_set = false;
   handle_alarm = 0;
+#ifndef _WIN32
   (void) signal (SIGALRM, SIGALRM_handler);
+#endif
 }

@@ -7,6 +7,8 @@ CONFIGURATION (default) \
 CONFIGURATION (sat) \
 CONFIGURATION (unsat) \
 
+#include "badbool.h"
+
 struct kissat;
 
 void kissat_configuration_usage (void);

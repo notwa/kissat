@@ -5,7 +5,7 @@
 #include "stack.h"
 #include "value.h"
 
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdint.h>
 
 struct kissat;

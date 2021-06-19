@@ -19,12 +19,12 @@ sort_bump (kissat * solver)
   const size_t size = SIZE_STACK (solver->analyzed);
   if (size < RADIX_SORT_BUMP_LIMIT)
     {
-      LOG ("quick sorting %zu analyzed variables", size);
+      LOG ("quick sorting %Iu analyzed variables", size);
       SORT_STACK (datarank, solver->ranks, SMALLER);
     }
   else
     {
-      LOG ("radix sorting %zu analyzed variables", size);
+      LOG ("radix sorting %Iu analyzed variables", size);
       RADIX_STACK (datarank, unsigned, solver->ranks, RANK);
     }
 }

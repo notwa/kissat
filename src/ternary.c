@@ -373,7 +373,7 @@ remove_ternary_subsumed_clauses (kissat * solver, references * garbage)
       kissat_mark_clause_as_garbage (solver, c);
       marked++;
     }
-  LOG ("marked %zu clauses as garbage", marked);
+  LOG ("marked %Iu clauses as garbage", marked);
   CLEAR_STACK (*garbage);
   (void) marked;
 }
@@ -528,11 +528,11 @@ ternary_round (kissat * solver, const uint64_t resolved_limit,
     }
   if (remain)
     kissat_phase (solver, "ternary", GET (hyper_ternary_phases),
-		  "remaining %zu variables %.0f%% (incomplete ternary round)",
+		  "remaining %Iu variables %.0f%% (incomplete ternary round)",
 		  remain, kissat_percent (remain, scheduled));
   else
     kissat_phase (solver, "ternary", GET (hyper_ternary_phases),
-		  "all %zu variables resolved (complete ternary round)",
+		  "all %Iu variables resolved (complete ternary round)",
 		  scheduled);
 #else
   (void) scheduled;

@@ -871,7 +871,7 @@ push_flipped (kissat * solver, walker * walker, unsigned flipped)
 	  save_walker_trail (solver, walker, true);
 	  PUSH_STACK (walker->trail, flipped);
 	  assert (SIZE_STACK (walker->trail) <= UINT_MAX);
-	  LOG ("pushed flipped %s to trail which now has size %zu",
+	  LOG ("pushed flipped %s to trail which now has size %Iu",
 	       LOGLIT (flipped), SIZE_STACK (walker->trail));
 	}
       else

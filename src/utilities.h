@@ -2,7 +2,7 @@
 #define _utilities_h_INCLUDED
 
 #include <assert.h>
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdint.h>
 #include <stdlib.h>
 

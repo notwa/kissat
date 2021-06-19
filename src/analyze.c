@@ -204,7 +204,7 @@ analyze_reason_side_literals (kissat * solver)
   LOG ("trying to bump reason side literals too");
   const size_t saved = SIZE_STACK (solver->analyzed);
   const size_t limit = GET_OPTION (bumpreasonslimit) * saved;
-  LOG ("analyzed already %zu literals thus limit %zu", saved, limit);
+  LOG ("analyzed already %Iu literals thus limit %Iu", saved, limit);
   ward *arena = BEGIN_STACK (solver->arena);
   for (all_stack (unsigned, lit, solver->clause))
     {
@@ -274,7 +274,7 @@ sort_levels (kissat * solver)
     SORT_STACK (unsigned, *levels, SMALLER_LEVEL);
   else
     RADIX_STACK (unsigned, unsigned, *levels, RANK_LEVEL);
-  LOG ("sorted %zu levels", glue);
+  LOG ("sorted %Iu levels", glue);
 }
 
 static void
@@ -370,7 +370,7 @@ sort_deduced_clause (kissat * solver)
 static void
 reset_levels (kissat * solver)
 {
-  LOG ("reset %zu marked levels", SIZE_STACK (solver->levels));
+  LOG ("reset %Iu marked levels", SIZE_STACK (solver->levels));
   frame *frames = BEGIN_STACK (solver->frames);
 #ifndef NDEBUG
   const size_t size_frames = SIZE_STACK (solver->frames);
@@ -388,7 +388,7 @@ reset_levels (kissat * solver)
 void
 kissat_reset_only_analyzed_literals (kissat * solver)
 {
-  LOG ("reset %zu analyzed variables", SIZE_STACK (solver->analyzed));
+  LOG ("reset %Iu analyzed variables", SIZE_STACK (solver->analyzed));
   assigned *assigned = solver->assigned;
   for (all_stack (unsigned, idx, solver->analyzed))
     {
@@ -405,7 +405,7 @@ kissat_reset_only_analyzed_literals (kissat * solver)
 static void
 reset_removable (kissat * solver)
 {
-  LOG ("reset %zu removable variables", SIZE_STACK (solver->removable));
+  LOG ("reset %Iu removable variables", SIZE_STACK (solver->removable));
   assigned *assigned = solver->assigned;
 #ifndef NDEBUG
   unsigned not_removable = 0;
@@ -425,7 +425,7 @@ reset_analysis_but_not_analyzed_literals (kissat * solver)
 {
   reset_removable (solver);
   reset_levels (solver);
-  LOG ("reset %zu learned literals", SIZE_STACK (solver->clause));
+  LOG ("reset %Iu learned literals", SIZE_STACK (solver->clause));
   CLEAR_STACK (solver->clause);
 }
 
@@ -589,7 +589,7 @@ DONE:
   if (!solver->probing)
     kissat_update_learned (solver, 0, 1);
 
-  LOG ("failed literal %s produced %zu units",
+  LOG ("failed literal %s produced %Iu units",
        LOGLIT (failed), SIZE_STACK (*units));
 
   kissat_backtrack_without_updating_phases (solver, 0);

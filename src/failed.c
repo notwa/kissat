@@ -127,7 +127,7 @@ schedule_probes (kissat * solver, unsigned round, unsigneds * roots)
   (void) round;
 #else
   kissat_phase (solver, "failed", GET (failed_computations),
-		"round %u: scheduled %zu probes %.0f%% out of all variables",
+		"round %u: scheduled %Iu probes %.0f%% out of all variables",
 		round, res, kissat_percent (res, solver->active));
   if (scheduled[1])
     kissat_phase (solver, "failed", GET (failed_computations),
@@ -514,7 +514,7 @@ kissat_failed_literal_computation (kissat * solver)
 	  size_t remain = SIZE_STACK (roots);
 	  kissat_phase (solver, "failed",
 			GET (failed_computations),
-			"incomplete probing with %zu remaining %.0f%%",
+			"incomplete probing with %Iu remaining %.0f%%",
 			remain, kissat_percent (remain, scheduled));
 #endif
 	  break;

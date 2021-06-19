@@ -47,7 +47,7 @@ kissat_enlarge_vector (kissat * solver, vector * vector)
   const size_t old_vector_size = kissat_size_vector (vector);
 #ifdef LOGGING
   const size_t old_offset = kissat_offset_vector (solver, vector);
-  LOG2 ("enlarging vector %zu[%zu] at %p",
+  LOG2 ("enlarging vector %Iu[%Iu] at %p",
 	old_offset, old_vector_size, (void *) vector);
 #endif
   assert (old_vector_size < MAX_VECTORS / 2);
@@ -128,7 +128,7 @@ kissat_enlarge_vector (kissat * solver, vector * vector)
   vector->end = middle_new_vector;
 #ifdef LOGGING
   const size_t new_offset = vector->begin - stack->begin;
-  LOG2 ("enlarged vector at %p to %zu[%zu]",
+  LOG2 ("enlarged vector at %p to %Iu[%Iu]",
 	(void *) vector, new_offset, old_vector_size);
 #endif
 #endif
@@ -174,7 +174,7 @@ kissat_defrag_vectors (kissat * solver,
     return;
   START (defrag);
   INC (defragmentations);
-  LOG ("defragmenting vectors size %zu capacity %zu usable %zu",
+  LOG ("defragmenting vectors size %Iu capacity %Iu usable %Iu",
        size_vectors, CAPACITY_STACK (*stack), solver->vectors.usable);
   size_t bytes = size_unsorted * sizeof (unsigned);
   unsigned *sorted = kissat_malloc (solver, bytes);
@@ -225,7 +225,7 @@ kissat_defrag_vectors (kissat * solver,
   const size_t freed = END_STACK (*stack) - p;
   double freed_fraction = kissat_percent (freed, size_vectors);
   kissat_phase (solver, "defrag", GET (defragmentations),
-		"freed %zu usable entries %.0f%% thus %s",
+		"freed %Iu usable entries %.0f%% thus %s",
 		freed, freed_fraction,
 		FORMAT_BYTES (freed * sizeof (unsigned)));
   assert (freed == solver->vectors.usable);

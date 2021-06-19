@@ -1,7 +1,7 @@
 #ifndef _reluctant_h_INCLUDED
 #define _reluctant_h_INCLUDED
 
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdint.h>
 
 typedef struct reluctant reluctant;

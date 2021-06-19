@@ -32,7 +32,7 @@ assign_and_propagate_units (kissat * solver, unsigneds * units)
 {
   if (EMPTY_STACK (*units))
     return;
-  LOG ("assigning and propagating %zu units", SIZE_STACK (*units));
+  LOG ("assigning and propagating %Iu units", SIZE_STACK (*units));
   while (!solver->inconsistent && !EMPTY_STACK (*units))
     {
       const unsigned unit = POP_STACK (*units);
@@ -143,7 +143,7 @@ determine_representatives (kissat * solver, unsigned *repr)
 			min_lit = other;
 		    }
 		  non_trivial_sccs++;
-		  LOG ("size %zu SCC entered trough %s representative %s",
+		  LOG ("size %Iu SCC entered trough %s representative %s",
 		       size_scc, LOGLIT (lit), LOGLIT (min_lit));
 		}
 	      else
@@ -223,7 +223,7 @@ determine_representatives (kissat * solver, unsigned *repr)
   LOG ("reached %u literals", reached);
   LOG ("found %u non-trivial SCCs", non_trivial_sccs);
   LOG ("found %u trivial SCCs", trivial_sccs);
-  LOG ("found %zu units", SIZE_STACK (units));
+  LOG ("found %Iu units", SIZE_STACK (units));
   assign_and_propagate_units (solver, &units);
   assert (!inconsistent || solver->inconsistent);
   RELEASE_STACK (units);
@@ -435,8 +435,8 @@ substitute_binaries (kissat * solver, unsigned *repr)
     }
   RELEASE_STACK (delayed_removed);
 #endif
-  LOG ("substituted %zu binary clauses", substituted);
-  LOG ("removed %zu binary clauses", removed);
+  LOG ("substituted %Iu binary clauses", substituted);
+  LOG ("removed %Iu binary clauses", removed);
 }
 
 static void
@@ -609,7 +609,7 @@ substitute_clauses (kissat * solver, unsigned *repr)
       kissat_mark_clause_as_garbage (solver, c);
     }
   RELEASE_STACK (delayed_garbage);
-  LOG ("removed %zu substituted large clauses", removed);
+  LOG ("removed %Iu substituted large clauses", removed);
 }
 
 static bool

@@ -3,7 +3,7 @@
 
 #include "smooth.h"
 
-#include <stdbool.h>
+#include "badbool.h"
 
 typedef struct averages averages;
 

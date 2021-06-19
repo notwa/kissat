@@ -57,10 +57,10 @@ collect_reducibles (kissat * solver, reducibles * reds, reference start_ref)
   const reference redundant = (ward *) start - arena;
 #ifdef LOGGING
   if (redundant < solver->first_reducible)
-    LOG ("updating redundant clauses start from %zu to %zu",
+    LOG ("updating redundant clauses start from %Iu to %Iu",
 	 (size_t) solver->first_reducible, (size_t) redundant);
   else
-    LOG ("no update to redundant clauses start %zu",
+    LOG ("no update to redundant clauses start %Iu",
 	 (size_t) solver->first_reducible);
 #endif
   solver->first_reducible = redundant;
@@ -119,7 +119,7 @@ collect_reducibles (kissat * solver, reducibles * reds, reference start_ref)
     flushed_hyper_ternary_clauses + used_hyper_ternary_clauses;
   if (flushed_hyper_ternary_clauses)
     kissat_phase (solver, "reduced", GET (reductions),
-      "reduced %zu unused hyper ternary clauses %.0f%% out of %zu",
+      "reduced %Iu unused hyper ternary clauses %.0f%% out of %Iu",
       flushed_hyper_ternary_clauses,
 	kissat_percent (flushed_hyper_ternary_clauses,
 	                total_hyper_ternary_clauses),
@@ -153,7 +153,7 @@ mark_less_useful_clauses_as_garbage (kissat * solver, reducibles * reds)
     statistics->clauses_irredundant + statistics->clauses_redundant;
   kissat_phase (solver, "reduce",
 		GET (reductions),
-		"reducing %zu (%.0f%%) out of %zu (%.0f%%) "
+		"reducing %Iu (%.0f%%) out of %Iu (%.0f%%) "
 		"reducible clauses",
 		target, kissat_percent (target, size),
 		size, kissat_percent (size, clauses));
@@ -223,7 +223,7 @@ kissat_reduce (kissat * solver)
 		    "reducing clauses after offset %"
 		    REFERENCE_FORMAT " in arena", start);
       kissat_phase (solver, "reduce", GET (reductions),
-		    "reducing %zu words %s %.0f%%",
+		    "reducing %Iu words %s %.0f%%",
 		    words_to_sweep, FORMAT_BYTES (bytes_to_sweep),
 		    kissat_percent (words_to_sweep, arena_size));
 #endif

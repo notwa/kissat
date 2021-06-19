@@ -333,10 +333,10 @@ flush_large_connected_and_autarky_binaries (kissat * solver)
     }
 #ifndef QUIET
   if (flushed_large)
-    kissat_very_verbose (solver, "flushed %zu large clause references",
+    kissat_very_verbose (solver, "flushed %Iu large clause references",
 			 flushed_large);
   if (flushed_binaries)
-    kissat_very_verbose (solver, "flushed %zu autarky binary clauses",
+    kissat_very_verbose (solver, "flushed %Iu autarky binary clauses",
 			 flushed_binaries);
 #else
   (void) flushed_binaries;

@@ -66,7 +66,7 @@ remove_duplicated_binaries_with_literal (kissat * solver, unsigned lit)
 
   size_t removed = end - q;
   SET_END_OF_WATCHES (*watches, q);
-  LOG ("removed %zu watches with literal %s", removed, LOGLIT (lit));
+  LOG ("removed %Iu watches with literal %s", removed, LOGLIT (lit));
 
   return removed;
 }
@@ -97,7 +97,7 @@ remove_all_duplicated_binary_clauses (kissat * solver)
   size_t units = SIZE_STACK (solver->delayed);
   if (units)
     {
-      LOG ("found %zu hyper unary resolved units", units);
+      LOG ("found %Iu hyper unary resolved units", units);
       const value *const values = solver->values;
       for (all_stack (unsigned, unit, solver->delayed))
 	{
@@ -551,7 +551,7 @@ connect_subsuming (kissat * solver, unsigned occlim, clause * c)
 
   if (min_occs > occlim)
     return;
-  LOG ("connecting %s with %zu occurrences", LOGLIT (min_lit), min_occs);
+  LOG ("connecting %s with %Iu occurrences", LOGLIT (min_lit), min_occs);
   const reference ref = kissat_reference_clause (solver, c);
   kissat_connect_literal (solver, min_lit, ref);
 }
@@ -566,7 +566,7 @@ forward_subsume_all_clauses (kissat * solver)
   size_t scheduled = SIZE_STACK (candidates);
 
   kissat_phase (solver, "forward", GET (forward_subsumptions),
-		"scheduled %zu irredundant clauses %.0f%%", scheduled,
+		"scheduled %Iu irredundant clauses %.0f%%", scheduled,
 		kissat_percent (scheduled,
 				solver->statistics.clauses_irredundant));
 
@@ -618,18 +618,18 @@ forward_subsume_all_clauses (kissat * solver)
 #ifndef QUIET
   if (subsumed)
     kissat_phase (solver, "forward", GET (forward_subsumptions),
-		  "subsumed %zu clauses %.2f%% of %zu checked %.0f%%",
+		  "subsumed %Iu clauses %.2f%% of %Iu checked %.0f%%",
 		  subsumed, kissat_percent (subsumed, checked),
 		  checked, kissat_percent (checked, scheduled));
   if (strengthened)
     kissat_phase (solver, "forward", GET (forward_subsumptions),
-		  "strengthened %zu clauses %.2f%% of %zu checked %.0f%%",
+		  "strengthened %Iu clauses %.2f%% of %Iu checked %.0f%%",
 		  strengthened, kissat_percent (strengthened, checked),
 		  checked, kissat_percent (checked, scheduled));
   if (!subsumed && !strengthened)
     kissat_phase (solver, "forward", GET (forward_subsumptions),
 		  "no clause subsumed nor strengthened "
-		  "out of %zu checked %.0f%%",
+		  "out of %Iu checked %.0f%%",
 		  checked, kissat_percent (checked, scheduled));
 #endif
   struct flags *flags = solver->flags;
@@ -697,11 +697,11 @@ forward_subsume_all_clauses (kissat * solver)
 #ifndef QUIET
   if (remain)
     kissat_phase (solver, "forward", GET (forward_subsumptions),
-		  "%zu unchecked clauses remain %.0f%%",
+		  "%Iu unchecked clauses remain %.0f%%",
 		  remain, kissat_percent (remain, scheduled));
   else
     kissat_phase (solver, "forward", GET (forward_subsumptions),
-		  "all %zu scheduled clauses checked", scheduled);
+		  "all %Iu scheduled clauses checked", scheduled);
 #endif
   RELEASE_STACK (candidates);
   REPORT (!subsumed, 's');

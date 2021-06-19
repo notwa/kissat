@@ -2,7 +2,7 @@
 #define _statistics_h_INCLUDED
 
 #include <stdint.h>
-#include <stdbool.h>
+#include "badbool.h"
 
 #define METRICS_COUNTERS_AND_STATISTICS \
 \

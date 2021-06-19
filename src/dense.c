@@ -85,12 +85,12 @@ flush_large_watches (kissat * solver,
 	}
       SET_END_OF_WATCHES (*watches, q);
     }
-  LOG ("flushed %zu large watches", flushed);
-  LOG ("collected %zu satisfied binary clauses", collected);
+  LOG ("flushed %Iu large watches", flushed);
+  LOG ("collected %Iu satisfied binary clauses", collected);
   if (irredundant)
-    LOG ("saved %zu irredundant binary clauses", SIZE_STACK (*irredundant));
+    LOG ("saved %Iu irredundant binary clauses", SIZE_STACK (*irredundant));
   if (redundant)
-    LOG ("saved %zu redundant binary clauses", SIZE_STACK (*redundant));
+    LOG ("saved %Iu redundant binary clauses", SIZE_STACK (*redundant));
   (void) collected;
   (void) flushed;
 }
@@ -150,7 +150,7 @@ resume_watching_binaries_after_elimination (kissat * solver,
 #endif
 	}
     }
-  LOG ("resumed watching %zu binary clauses flushed %zu eliminated",
+  LOG ("resumed watching %Iu binary clauses flushed %Iu eliminated",
        resumed_watching, flushed_eliminated);
 }
 
@@ -178,7 +178,7 @@ completely_resume_watching_binaries (kissat * solver, litwatches * binaries)
       resumed_watching++;
 #endif
     }
-  LOG ("resumed watching %zu binary clauses", resumed_watching);
+  LOG ("resumed watching %Iu binary clauses", resumed_watching);
 }
 
 static void
@@ -209,7 +209,7 @@ resume_watching_irredundant_binaries (kissat * solver, litpairs * binaries)
       resumed_watching++;
 #endif
     }
-  LOG ("resumed watching %zu binary clauses", resumed_watching);
+  LOG ("resumed watching %Iu binary clauses", resumed_watching);
 }
 
 static void
@@ -272,7 +272,7 @@ resume_watching_large_clauses_after_elimination (kissat * solver)
 	resumed_watching_irredundant++;
 #endif
     }
-  LOG ("resumed watching %zu irredundant and %zu redundant large clauses",
+  LOG ("resumed watching %Iu irredundant and %Iu redundant large clauses",
        resumed_watching_irredundant, resumed_watching_redundant);
 }
 
@@ -290,13 +290,13 @@ kissat_resume_sparse_mode (kissat * solver, bool flush_eliminated,
   solver->watching = true;
   if (irredundant)
     {
-      LOG ("resuming watching %zu irredundant binaries",
+      LOG ("resuming watching %Iu irredundant binaries",
 	   SIZE_STACK (*irredundant));
       resume_watching_irredundant_binaries (solver, irredundant);
     }
   if (redundant)
     {
-      LOG ("resuming watching %zu redundant binaries",
+      LOG ("resuming watching %Iu redundant binaries",
 	   SIZE_STACK (*redundant));
       if (flush_eliminated)
 	resume_watching_binaries_after_elimination (solver, redundant);

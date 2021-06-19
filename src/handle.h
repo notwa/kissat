@@ -9,12 +9,20 @@ void kissat_reset_signal_handler (void);
 void kissat_init_alarm (void (*handler) (void));
 void kissat_reset_alarm (void);
 
+#ifndef _WIN32
 #define SIGNALS \
 SIGNAL(SIGABRT) \
 SIGNAL(SIGBUS) \
 SIGNAL(SIGINT) \
 SIGNAL(SIGSEGV) \
 SIGNAL(SIGTERM)
+#else
+#define SIGNALS \
+SIGNAL(SIGABRT) \
+SIGNAL(SIGINT) \
+SIGNAL(SIGSEGV) \
+SIGNAL(SIGTERM)
+#endif
 
 // *INDENT-OFF*
 
@@ -25,8 +33,10 @@ kissat_signal_name (int sig)
   if (sig == SIG) return #SIG;
   SIGNALS
 #undef SIGNAL
+#ifndef _WIN32
   if (sig == SIGALRM)
     return "SIGALRM";
+#endif
   return "SIGUNKNOWN";
 }
 

@@ -246,7 +246,7 @@ dump_extend (kissat * solver)
   for (const extension * p = begin, *q; p != end; p = q)
     {
       assert (p->blocking);
-      printf ("extend[%zu] %d", (size_t) (p - begin), p->lit);
+      printf ("extend[%Iu] %d", (size_t) (p - begin), p->lit);
       if (!p[1].blocking)
 	fputs (" :", stdout);
       for (q = p + 1; q != end && !q->blocking; q++)
@@ -308,9 +308,9 @@ dump_vectors (kissat * solver)
 {
   vectors *vectors = &solver->vectors;
   unsigneds *stack = &vectors->stack;
-  printf ("vectors.size = %zu\n", SIZE_STACK (*stack));
-  printf ("vectors.capacity = %zu\n", CAPACITY_STACK (*stack));
-  printf ("vectors.usable = %zu\n", vectors->usable);
+  printf ("vectors.size = %Iu\n", SIZE_STACK (*stack));
+  printf ("vectors.capacity = %Iu\n", CAPACITY_STACK (*stack));
+  printf ("vectors.usable = %Iu\n", vectors->usable);
   const unsigned *const begin = BEGIN_STACK (*stack);
   const unsigned *const end = END_STACK (*stack);
   if (begin == end)

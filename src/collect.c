@@ -100,7 +100,7 @@ flush_watched_clauses_by_literal (kissat * solver, litpairs * hyper,
   SET_END_OF_WATCHES (*lit_watches, q);
 #ifdef LOGGING
   const size_t size_lit_watches = SIZE_WATCHES (*lit_watches);
-  LOG ("keeping %zu watches[%u]", size_lit_watches, lit);
+  LOG ("keeping %Iu watches[%u]", size_lit_watches, lit);
 #endif
   if (!compact)
     return;
@@ -119,7 +119,7 @@ flush_watched_clauses_by_literal (kissat * solver, litpairs * hyper,
       assert (mlit != INVALID_LIT);
       assert (mlit < lit);
       *mlit_watches = *lit_watches;
-      LOG ("copied watches[%u] = watches[%u] (size %zu)",
+      LOG ("copied watches[%u] = watches[%u] (size %Iu)",
 	   mlit, lit, size_mlit_watches);
       memset (lit_watches, 0, sizeof *lit_watches);
     }
@@ -166,7 +166,7 @@ flush_hyper_binary_watches (kissat * solver, litpairs * hyper, bool compact)
   if (flushed)
     kissat_phase (solver, "collect",
 		  GET (garbage_collections),
-		  "flushed %zu unused hyper binary clauses %.0f%%",
+		  "flushed %Iu unused hyper binary clauses %.0f%%",
 		  flushed, kissat_percent (flushed, SIZE_STACK (*hyper)));
   (void) flushed;
 }
@@ -186,7 +186,7 @@ flush_all_watched_clauses (kissat * solver, bool compact, reference start)
       flush_watched_clauses_by_literal (solver, &hyper,
 					not_lit, compact, start);
     }
-  LOG ("saved %zu hyper binary watches", SIZE_STACK (hyper));
+  LOG ("saved %Iu hyper binary watches", SIZE_STACK (hyper));
   flush_hyper_binary_watches (solver, &hyper, compact);
   RELEASE_STACK (hyper);
 }
@@ -606,20 +606,20 @@ sparse_sweep_garbage_clauses (kissat * solver, bool compact, reference start)
   if (flushed)
     kissat_phase (solver, "collect",
 		  GET (garbage_collections),
-		  "flushed %zu falsified literals in large clauses", flushed);
+		  "flushed %Iu falsified literals in large clauses", flushed);
   size_t flushed_clauses =
     flushed_satisfied_clauses + flushed_garbage_clauses;
   if (flushed_satisfied_clauses)
     kissat_phase (solver, "collect",
 		  GET (garbage_collections),
-		  "flushed %zu satisfied large clauses %.0f%%",
+		  "flushed %Iu satisfied large clauses %.0f%%",
 		  flushed_satisfied_clauses,
 		  kissat_percent (flushed_satisfied_clauses,
 				  flushed_clauses));
   if (flushed_garbage_clauses)
     kissat_phase (solver, "collect",
 		  GET (garbage_collections),
-		  "flushed %zu large garbage clauses %.0f%%",
+		  "flushed %Iu large garbage clauses %.0f%%",
 		  flushed_garbage_clauses,
 		  kissat_percent (flushed_garbage_clauses, flushed_clauses));
   kissat_phase (solver, "collect",
@@ -777,7 +777,7 @@ dense_sweep_garbage_clauses (kissat * solver)
 #endif
   kissat_phase (solver, "collect",
 		GET (garbage_collections),
-		"flushed %zu large garbage clauses", flushed_garbage_clauses);
+		"flushed %Iu large garbage clauses", flushed_garbage_clauses);
   kissat_phase (solver, "collect",
 		GET (garbage_collections),
 		"collected %s in total", FORMAT_BYTES (bytes));

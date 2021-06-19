@@ -145,7 +145,7 @@ kissat_find_definition (kissat * solver, unsigned lit)
 	}
     }
   bool res = false;
-  LOG ("exported %u = %zu + %zu environment clauses to sub-solver",
+  LOG ("exported %u = %Iu + %Iu environment clauses to sub-solver",
        exported, occs[0], occs[1]);
   INC (definitions_checked);
   int status = kitten_solve (kitten);
@@ -186,8 +186,8 @@ kissat_find_definition (kissat * solver, unsigned lit)
 #ifdef METRICS
       kissat_extremely_verbose (solver,
 				"definition extracted[%" PRIu64 "] "
-				"size %u = %zu + %zu clauses %.0f%% "
-				"of %u = %zu + %zu (checked %" PRIu64 ")",
+				"size %u = %Iu + %Iu clauses %.0f%% "
+				"of %u = %Iu + %Iu (checked %" PRIu64 ")",
 				solver->statistics.definitions_extracted,
 				reduced, size[0], size[1],
 				kissat_percent (reduced, exported),
@@ -196,8 +196,8 @@ kissat_find_definition (kissat * solver, unsigned lit)
 #else
       kissat_extremely_verbose (solver,
 				"definition extracted with core "
-				"size %u = %zu + %zu clauses %.0f%% "
-				"of %u = %zu + %zu",
+				"size %u = %Iu + %Iu clauses %.0f%% "
+				"of %u = %Iu + %Iu",
 				reduced, size[0], size[1],
 				kissat_percent (reduced, exported),
 				exported, occs[0], occs[1]);

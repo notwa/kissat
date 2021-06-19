@@ -56,9 +56,9 @@ kissat_malloc (kissat * solver, size_t bytes)
   if (!bytes)
     return 0;
   res = malloc (bytes);
-  LOG4 ("malloc (%zu) = %p", bytes, res);
+  LOG4 ("malloc (%Iu) = %p", bytes, res);
   if (!res)
-    kissat_fatal ("out-of-memory allocating %zu bytes", bytes);
+    kissat_fatal ("out-of-memory allocating %Iu bytes", bytes);
   inc_bytes (solver, bytes);
   return res;
 }
@@ -68,7 +68,7 @@ kissat_free (kissat * solver, void *ptr, size_t bytes)
 {
   if (ptr)
     {
-      LOG4 ("free (%p[%zu])", ptr, bytes);
+      LOG4 ("free (%p[%Iu])", ptr, bytes);
       dec_bytes (solver, bytes);
       free (ptr);
     }
@@ -83,13 +83,13 @@ kissat_nalloc (kissat * solver, size_t n, size_t size)
   if (!n || !size)
     return 0;
   if (MAX_SIZE_T / size < n)
-    kissat_fatal ("invalid 'kissat_nalloc (..., %zu, %zu)' call", n, size);
+    kissat_fatal ("invalid 'kissat_nalloc (..., %Iu, %Iu)' call", n, size);
   const size_t bytes = n * size;
   res = malloc (bytes);
-  LOG4 ("nalloc (%zu, %zu) = %p", n, size, res);
+  LOG4 ("nalloc (%Iu, %Iu) = %p", n, size, res);
   if (!res)
     kissat_fatal ("out-of-memory allocating "
-		  "%zu = %zu x %zu bytes", bytes, n, size);
+		  "%Iu = %Iu x %Iu bytes", bytes, n, size);
   inc_bytes (solver, bytes);
   return res;
 }
@@ -102,13 +102,13 @@ kissat_calloc (kissat * solver, size_t n, size_t size)
   if (!n || !size)
     return 0;
   if (MAX_SIZE_T / size < n)
-    kissat_fatal ("invalid 'kissat_calloc (..., %zu, %zu)' call", n, size);
+    kissat_fatal ("invalid 'kissat_calloc (..., %Iu, %Iu)' call", n, size);
   res = calloc (n, size);
-  LOG4 ("calloc (%zu, %zu) = %p", n, size, res);
+  LOG4 ("calloc (%Iu, %Iu) = %p", n, size, res);
   const size_t bytes = n * size;
   if (!res)
     kissat_fatal ("out-of-memory allocating "
-		  "%zu = %zu x %zu bytes", bytes, n, size);
+		  "%Iu = %Iu x %Iu bytes", bytes, n, size);
   inc_bytes (solver, bytes);
   return res;
 }
@@ -119,7 +119,7 @@ kissat_dealloc (kissat * solver, void *ptr, size_t n, size_t size)
   if (!n || !size)
     return;
   if (MAX_SIZE_T / size < n)
-    kissat_fatal ("invalid 'kissat_dealloc (..., %zu, %zu)' call", n, size);
+    kissat_fatal ("invalid 'kissat_dealloc (..., %Iu, %Iu)' call", n, size);
   const size_t bytes = n * size;
   kissat_free (solver, ptr, bytes);
 }
@@ -136,9 +136,9 @@ kissat_realloc (kissat * solver, void *p, size_t old_bytes, size_t new_bytes)
     }
   dec_bytes (solver, old_bytes);
   void *res = realloc (p, new_bytes);
-  LOG4 ("realloc (%p[%zu], %zu) = %p", p, old_bytes, new_bytes, res);
+  LOG4 ("realloc (%p[%Iu], %Iu) = %p", p, old_bytes, new_bytes, res);
   if (new_bytes && !res)
-    kissat_fatal ("out-of-memory reallocating from %zu to %zu bytes",
+    kissat_fatal ("out-of-memory reallocating from %Iu to %Iu bytes",
 		  old_bytes, new_bytes);
   inc_bytes (solver, new_bytes);
   return res;
@@ -155,7 +155,7 @@ kissat_nrealloc (kissat * solver, void *p, size_t o, size_t n, size_t size)
     }
   const size_t max = MAX_SIZE_T / size;
   if (max < o || max < n)
-    kissat_fatal ("invalid 'kissat_nrealloc (..., %zu, %zu, %zu)' call",
+    kissat_fatal ("invalid 'kissat_nrealloc (..., %Iu, %Iu, %Iu)' call",
 		  o, n, size);
   return kissat_realloc (solver, p, o * size, n * size);
 }

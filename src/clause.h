@@ -6,7 +6,7 @@
 #include "reference.h"
 #include "utilities.h"
 
-#include <stdbool.h>
+#include "badbool.h"
 
 typedef struct clause clause;
 

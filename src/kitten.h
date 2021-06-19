@@ -1,7 +1,7 @@
 #ifndef _kitten_h_INCLUDED
 #define _kitten_h_INCLUDED
 
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdint.h>
 #include <stdlib.h>
 

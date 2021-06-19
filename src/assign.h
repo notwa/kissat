@@ -1,7 +1,7 @@
 #ifndef _assign_h_INCLUDED
 #define _assign_h_INCLUDED
 
-#include <stdbool.h>
+#include "badbool.h"
 
 #define DECISION_REASON	UINT_MAX
 #define UNIT_REASON	(DECISION_REASON - 1)

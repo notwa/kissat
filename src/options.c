@@ -212,7 +212,7 @@ kissat_options_get (const char *name)
 #include "format.h"
 
 #include <assert.h>
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdlib.h>
 
 static void
@@ -251,8 +251,8 @@ check_name_length (void)
 #ifndef NDEBUG
 #define OPTION(N,V,L,H,D) \
   if (strlen (#N) + 1 > kissat_options_max_name_buffer_size) \
-    kissat_fatal ("option '%s' name length %zu " \
-      "exceeds maximum name buffer size %zu", \
+    kissat_fatal ("option '%s' name length %Iu " \
+      "exceeds maximum name buffer size %Iu", \
       #N, strlen (#N), kissat_options_max_name_buffer_size);
   OPTIONS
 #undef OPTION

@@ -10,11 +10,11 @@ undo_eliminated_assignment (kissat * solver)
 #endif
   if (!size_etrail)
     {
-      LOG ("all %zu eliminated variables are unassigned", size_eliminated);
+      LOG ("all %Iu eliminated variables are unassigned", size_eliminated);
       return;
     }
 
-  LOG ("unassigning %zu eliminated variables %.0f%%",
+  LOG ("unassigning %Iu eliminated variables %.0f%%",
        size_etrail, kissat_percent (size_etrail, size_eliminated));
 
   value *values = BEGIN_STACK (solver->eliminated);
@@ -58,7 +58,7 @@ kissat_extend (kissat * solver)
 
   undo_eliminated_assignment (solver);
 
-  LOG ("extending solution with reconstruction stack of size %zu",
+  LOG ("extending solution with reconstruction stack of size %Iu",
        SIZE_STACK (solver->extend));
 
   value *evalues = BEGIN_STACK (solver->eliminated);
@@ -160,7 +160,7 @@ kissat_extend (kissat * solver)
 	{
 	  LOGEXT2 (size, p,
 		   "assigning eliminated unassigned external literal %d "
-		   "to satisfy size %zu witness labelled clause at",
+		   "to satisfy size %Iu witness labelled clause at",
 		   eliminated, size);
 	  extend_assign (solver, evalues, eliminated);
 #ifdef LOGGING
@@ -178,7 +178,7 @@ kissat_extend (kissat * solver)
       const value blocking_value = evalues[blocking_pos];
       LOGEXT2 (size, p,
 	       "%s blocking external literal %d "
-	       "to satisfy size %zu witness labelled clause at",
+	       "to satisfy size %Iu witness labelled clause at",
 	       blocking_value ? "flipping" : "assigning", blocking, size);
       if (blocking_value)
 	flipped++;
@@ -190,9 +190,9 @@ kissat_extend (kissat * solver)
 
 #ifdef LOGGING
   size_t total = SIZE_STACK (solver->eliminated);
-  LOG ("assigned %zu external variables %.0f%% out of %zu eliminated",
+  LOG ("assigned %Iu external variables %.0f%% out of %Iu eliminated",
        assigned, kissat_percent (assigned, total), total);
-  LOG ("flipped %zu external variables %.0f%% out of %zu assigned",
+  LOG ("flipped %Iu external variables %.0f%% out of %Iu assigned",
        flipped, kissat_percent (flipped, assigned), assigned);
   LOG ("extended assignment complete");
 #endif

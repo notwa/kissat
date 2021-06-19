@@ -100,7 +100,7 @@ kissat_log_lits (kissat * solver, const char *prefix, size_t size,
   va_start (ap, fmt);
   begin_logging (solver, prefix, fmt, &ap);
   va_end (ap);
-  printf (" size %zu clause", size);
+  printf (" size %Iu clause", size);
   log_lits (solver, size, lits);
   end_logging ();
 }
@@ -114,7 +114,7 @@ kissat_log_resolvent (kissat * solver, const char *prefix,
   begin_logging (solver, prefix, fmt, &ap);
   va_end (ap);
   const size_t size = SIZE_STACK (solver->resolvent);
-  printf (" size %zu resolvent", size);
+  printf (" size %Iu resolvent", size);
   const unsigned *const lits = BEGIN_STACK (solver->resolvent);
   log_lits (solver, size, lits);
   end_logging ();
@@ -128,7 +128,7 @@ kissat_log_ints (kissat * solver, const char *prefix, size_t size,
   va_start (ap, fmt);
   begin_logging (solver, prefix, fmt, &ap);
   va_end (ap);
-  printf (" size %zu external literals clause", size);
+  printf (" size %Iu external literals clause", size);
   for (size_t i = 0; i < size; i++)
     printf (" %d", lits[i]);
   end_logging ();
@@ -142,7 +142,7 @@ kissat_log_unsigneds (kissat * solver, const char *prefix, size_t size,
   va_start (ap, fmt);
   begin_logging (solver, prefix, fmt, &ap);
   va_end (ap);
-  printf (" size %zu clause", size);
+  printf (" size %Iu clause", size);
   for (size_t i = 0; i < size; i++)
     printf (" %u", lits[i]);
   end_logging ();
@@ -159,7 +159,7 @@ kissat_log_extensions (kissat * solver, const char *prefix, size_t size,
   va_end (ap);
   const extension *const begin = BEGIN_STACK (solver->extend);
   const size_t pos = exts - begin;
-  printf (" extend[%zu]", pos);
+  printf (" extend[%Iu]", pos);
   printf (" %d", exts[0].lit);
   if (size > 1)
     fputs (" :", stdout);

@@ -2,7 +2,7 @@
 #define _bits_h_INCLUDED
 
 #include <assert.h>
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdlib.h>
 
 typedef unsigned bits;

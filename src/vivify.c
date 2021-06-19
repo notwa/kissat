@@ -204,13 +204,13 @@ schedule_vivification_candidates (kissat * solver,
   if (prioritized)
     {
       kissat_phase (solver, mode, GET (vivifications),
-		    "prioritized %zu %s clauses %.0f%%", prioritized,
+		    "prioritized %Iu %s clauses %.0f%%", prioritized,
 		    type, kissat_percent (prioritized, scheduled));
     }
   else
     {
       kissat_phase (solver, mode, GET (vivifications),
-		    "prioritizing all %zu scheduled %s clauses",
+		    "prioritizing all %Iu scheduled %s clauses",
 		    scheduled, type);
       for (all_stack (reference, ref, *schedule))
 	{
@@ -796,7 +796,7 @@ vivify_clause (kissat * solver, clause * c,
     {
       TERMINAL (stdout, 1);
       COLOR (MAGENTA);
-      printf ("c LOG %u vivify sorted size %zu candidate clause",
+      printf ("c LOG %u vivify sorted size %Iu candidate clause",
 	      solver->level, SIZE_STACK (*sorted));
       heap *scores = &solver->scores;
       links *links = solver->links;
@@ -1052,7 +1052,7 @@ vivify_round (kissat * solver, round round,
   const size_t total =
     (round == IRREDUNDANT_ROUND) ? IRREDUNDANT_CLAUSES : REDUNDANT_CLAUSES;
   kissat_phase (solver, mode, GET (vivifications),
-		"scheduled %zu %s clauses %.0f%% of %zu", scheduled,
+		"scheduled %Iu %s clauses %.0f%% of %Iu", scheduled,
 		type, kissat_percent (scheduled, total), total);
 #endif
   size_t vivified = 0, tried = 0;
@@ -1087,7 +1087,7 @@ vivify_round (kissat * solver, round round,
   RELEASE_STACK (sorted);
 #ifndef QUIET
   kissat_phase (solver, mode, GET (vivifications),
-		"vivified %zu %s clauses %.0f%% out of %zu tried",
+		"vivified %Iu %s clauses %.0f%% out of %Iu tried",
 		vivified, type, kissat_percent (vivified, tried), tried);
   if (!solver->inconsistent)
     {
@@ -1095,7 +1095,7 @@ vivify_round (kissat * solver, round round,
       if (remain)
 	{
 	  kissat_phase (solver, mode, GET (vivifications),
-			"%zu %s clauses remain %.0f%% out of %zu scheduled",
+			"%Iu %s clauses remain %.0f%% out of %Iu scheduled",
 			remain, type, kissat_percent (remain, scheduled),
 			scheduled);
 
@@ -1117,12 +1117,12 @@ vivify_round (kissat * solver, round round,
 			  "no prioritized %s clauses left", type);
 	  else if (keep)
 	    kissat_phase (solver, mode, GET (vivifications),
-			  "keeping %zu %s clauses prioritized %.0f%%",
+			  "keeping %Iu %s clauses prioritized %.0f%%",
 			  prioritized, type,
 			  kissat_percent (prioritized, remain));
 	  else
 	    kissat_very_verbose (solver,
-				 "dropping %zu %s candidate clauses %.0f%%",
+				 "dropping %Iu %s candidate clauses %.0f%%",
 				 prioritized, mode,
 				 kissat_percent (prioritized, remain));
 	}

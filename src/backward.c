@@ -33,7 +33,7 @@ backward_subsume_lits (kissat * solver, reference ignore,
   if (min_occs > occlim)
     return true;
 
-  LOGTMP ("backward subsumption on %s with %zu occurrences in",
+  LOGTMP ("backward subsumption on %s with %Iu occurrences in",
 	  LOGLIT (min_lit), min_occs);
 
   value *marks = solver->marks;

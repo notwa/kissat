@@ -16,7 +16,7 @@ reset_shrinkable (kissat * solver)
       a->shrinkable = false;
       reset++;
     }
-  LOG ("resetting %zu shrinkable variables", reset);
+  LOG ("resetting %Iu shrinkable variables", reset);
 }
 
 static void
@@ -36,8 +36,8 @@ mark_shrinkable_as_removable (kissat * solver)
 	continue;
       kissat_push_removable (solver, assigned, idx), marked++;
     }
-  LOG ("resetting %zu shrinkable variables", reset);
-  LOG ("marked %zu removable variables", marked);
+  LOG ("resetting %Iu shrinkable variables", reset);
+  LOG ("marked %Iu removable variables", marked);
 }
 
 static inline int
@@ -102,7 +102,7 @@ shrunken_block (kissat * solver, unsigned level,
   assert (begin_block < end_block);
 #if defined (LOGGING) || !defined (NDEBUG)
   const size_t tmp = end_block - begin_block;
-  LOG ("shrinking %zu literals on level %u to single literal %s",
+  LOG ("shrinking %Iu literals on level %u to single literal %s",
        tmp, level, LOGLIT (not_uip));
   assert (tmp > 1);
 #endif

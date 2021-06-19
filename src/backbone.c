@@ -45,7 +45,7 @@ schedule_backbone_candidates (kissat * solver, unsigneds * candidates)
 #ifndef QUIET
   const unsigned active_literals = 2u * solver->active;
   kissat_very_verbose (solver,
-		       "rescheduled %zu backbone candidate literals %.0f%%",
+		       "rescheduled %Iu backbone candidate literals %.0f%%",
 		       rescheduled,
 		       kissat_percent (rescheduled, active_literals));
 #endif
@@ -84,7 +84,7 @@ schedule_backbone_candidates (kissat * solver, unsigneds * candidates)
 #ifndef QUIET
   const size_t total = SIZE_STACK (*candidates);
   kissat_very_verbose (solver,
-		       "scheduled %zu backbone candidate literals %.0f%%"
+		       "scheduled %Iu backbone candidate literals %.0f%%"
 		       " in total", total,
 		       kissat_percent (total, active_literals));
 #endif
@@ -128,7 +128,7 @@ keep_backbone_candidates (kissat * solver, unsigneds * candidates)
   const size_t active_literals = 2u * solver->active;
 #endif
   if (prioritized == remain)
-    kissat_very_verbose (solver, "keeping all remaining %zu backbone "
+    kissat_very_verbose (solver, "keeping all remaining %Iu backbone "
 			 "candidates %.0f%% prioritized (all were)",
 			 remain, kissat_percent (remain, active_literals));
   else if (!prioritized)
@@ -150,14 +150,14 @@ keep_backbone_candidates (kissat * solver, unsigneds * candidates)
 	      f->backbone0 = true;
 	    }
 	}
-      kissat_very_verbose (solver, "keeping all remaining %zu backbone "
+      kissat_very_verbose (solver, "keeping all remaining %Iu backbone "
 			   "candidates %.0f%% prioritized (none was)",
 			   remain, kissat_percent (remain, active_literals));
     }
   else
     {
-      kissat_very_verbose (solver, "keeping %zu backbone candidates %.0f%% "
-			   "prioritized (%.0f%% of remaining %zu)",
+      kissat_very_verbose (solver, "keeping %Iu backbone candidates %.0f%% "
+			   "prioritized (%.0f%% of remaining %Iu)",
 			   prioritized,
 			   kissat_percent (prioritized, active_literals),
 			   kissat_percent (prioritized, remain), remain);
@@ -286,7 +286,7 @@ backbone_backtrack (kissat * solver,
   assert (decision_level <= solver->level);
   unsigned *end_trail = END_ARRAY (*trail);
   assert (saved != end_trail);
-  LOG ("backbone backtracking to trail level %zu and decision level %u",
+  LOG ("backbone backtracking to trail level %Iu and decision level %u",
        (size_t) (saved - BEGIN_ARRAY (*trail)), decision_level);
   while (saved != end_trail)
     {
@@ -411,7 +411,7 @@ compute_backbone (kissat * solver)
     {
       if (round >= round_limit)
 	{
-	  kissat_very_verbose (solver, "backbone round limit %zu hit", round);
+	  kissat_very_verbose (solver, "backbone round limit %Iu hit", round);
 	  break;
 	}
       const uint64_t ticks = solver->statistics.backbone_ticks;
@@ -428,7 +428,7 @@ compute_backbone (kissat * solver)
 	break;
       round++;
       INC (backbone_rounds);
-      LOG ("starting backbone round %zu", round);
+      LOG ("starting backbone round %Iu", round);
       unsigned *const begin_candidates = BEGIN_STACK (candidates);
       assert (!solver->level);
 #if !defined(QUIET) && defined(METRICS)
@@ -527,14 +527,14 @@ compute_backbone (kissat * solver)
 	size_t remain = end_candidates - p;
 	if (remain)
 	  kissat_extremely_verbose (solver,
-				    "backbone round %zu aborted with "
-				    "%zu candidates %.0f%% remaining",
+				    "backbone round %Iu aborted with "
+				    "%Iu candidates %.0f%% remaining",
 				    round, remain,
 				    kissat_percent (remain, scheduled));
 	else
 	  kissat_extremely_verbose (solver,
-				    "backbone round %zu completed with "
-				    "all %zu scheduled candidates tried",
+				    "backbone round %Iu completed with "
+				    "all %Iu scheduled candidates tried",
 				    round, scheduled);
 #endif
 	while (p != end_candidates)
@@ -573,7 +573,7 @@ compute_backbone (kissat * solver)
 	      assert (!value);
 	      LOG ("keeping unassigned probe %s", LOGLIT (probe));
 	    }
-	  LOG ("flushed %zu probe candidates",
+	  LOG ("flushed %Iu probe candidates",
 	       (size_t) (q - BEGIN_STACK (candidates)));
 	  SET_END_OF_STACK (candidates, q);
 	}
@@ -598,15 +598,15 @@ compute_backbone (kissat * solver)
 #ifdef METRICS
       propagated = solver->statistics.backbone_propagations - propagated;
       kissat_very_verbose (solver,
-			   "backbone round %zu with %zu decisions "
+			   "backbone round %Iu with %Iu decisions "
 			   "(%.2f propagations per decision)",
 			   round, decisions,
 			   kissat_average (propagated, decisions));
 #endif
       size_t left = SIZE_STACK (candidates);
       kissat_very_verbose (solver,
-			   "backbone round %zu produced %zu failed literals"
-			   " %u implied (%zu candidates left %.0f%%)",
+			   "backbone round %Iu produced %Iu failed literals"
+			   " %u implied (%Iu candidates left %.0f%%)",
 			   round, failed - previous, implied,
 			   left, kissat_percent (left, scheduled));
 #endif
@@ -638,8 +638,8 @@ compute_backbone (kissat * solver)
       const uint64_t total_implied =
 	solver->statistics.backbone_implied - implied_before;
       kissat_phase (solver, "backbone", GET (backbone_computations),
-		    "found %zu backbone literals %" PRIu64
-		    " implied in %zu rounds", failed, total_implied, round);
+		    "found %Iu backbone literals %" PRIu64
+		    " implied in %Iu rounds", failed, total_implied, round);
 #endif
     }
   RELEASE_STACK (candidates);

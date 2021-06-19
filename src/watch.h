@@ -6,7 +6,7 @@
 #include "stack.h"
 #include "vector.h"
 
-#include <stdbool.h>
+#include "badbool.h"
 
 typedef union watch watch;
 

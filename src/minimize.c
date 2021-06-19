@@ -160,7 +160,7 @@ kissat_minimize_literal (kissat * solver, unsigned lit, bool lit_in_clause)
 void
 kissat_reset_poisoned (kissat * solver)
 {
-  LOG ("reset %zu poisoned variables", SIZE_STACK (solver->poisoned));
+  LOG ("reset %Iu poisoned variables", SIZE_STACK (solver->poisoned));
   assigned *assigned = solver->assigned;
   for (all_stack (unsigned, idx, solver->poisoned))
     {

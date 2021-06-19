@@ -19,9 +19,30 @@ kissat_wall_clock_time (void)
 
 #include <stdio.h>
 #include <inttypes.h>
+#ifndef _WIN32
 #include <sys/resource.h>
+#endif
 #include <sys/types.h>
 #include <unistd.h>
+
+#ifdef _WIN32
+
+typedef struct {
+    int64_t QuadPart;
+} quad;
+extern int __stdcall QueryPerformanceFrequency(quad *lpFrequency);
+extern int __stdcall QueryPerformanceCounter(quad *lpPerformanceCount);
+
+double
+kissat_process_time (void)
+{
+  quad time, freq;
+  QueryPerformanceCounter(&time);
+  QueryPerformanceFrequency(&freq);
+  return (double)(time.QuadPart) / (double)(freq.QuadPart);
+}
+
+#else
 
 double
 kissat_process_time (void)
@@ -35,18 +56,27 @@ kissat_process_time (void)
   return res;
 }
 
+#endif
+
 uint64_t
 kissat_maximum_resident_set_size (void)
 {
+#ifdef _WIN32
+    return 0;
+#else
   struct rusage u;
   if (getrusage (RUSAGE_SELF, &u))
     return 0;
   return ((uint64_t) u.ru_maxrss) << 10;
+#endif
 }
 
 uint64_t
 kissat_current_resident_set_size (void)
 {
+#ifdef _WIN32
+    return 0;
+#else
   char path[48];
   sprintf (path, "/proc/%" PRIu64 "/statm", (uint64_t) getpid ());
   FILE *file = fopen (path, "r");
@@ -56,6 +86,7 @@ kissat_current_resident_set_size (void)
   int scanned = fscanf (file, "%" PRIu64 " %" PRIu64 "", &dummy, &rss);
   fclose (file);
   return scanned == 2 ? rss * sysconf (_SC_PAGESIZE) : 0;
+#endif
 }
 
 void

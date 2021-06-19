@@ -16,7 +16,7 @@ occurrences_literal (kissat * solver, unsigned lit, bool * update)
   watches *watches = &WATCHES (lit);
 #ifdef LOGGING
   const size_t size_watches = SIZE_WATCHES (*watches);
-  LOG ("literal %s has %zu watches", LOGLIT (lit), size_watches);
+  LOG ("literal %s has %Iu watches", LOGLIT (lit), size_watches);
 #endif
   const unsigned clslim = solver->bounds.eliminate.clause_size;
 

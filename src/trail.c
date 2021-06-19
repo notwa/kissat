@@ -11,7 +11,7 @@ kissat_flush_trail (kissat * solver)
   assert (!solver->inconsistent);
   assert (kissat_propagated (solver));
   assert (SIZE_ARRAY (solver->trail) == solver->unflushed);
-  LOG ("flushed %zu units from trail", SIZE_ARRAY (solver->trail));
+  LOG ("flushed %Iu units from trail", SIZE_ARRAY (solver->trail));
   CLEAR_ARRAY (solver->trail);
   kissat_reset_propagate (solver);
   solver->unflushed = 0;

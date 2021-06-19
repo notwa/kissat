@@ -104,8 +104,8 @@ get_antecedents (kissat * solver, unsigned lit, unsigned negative)
   size_t size_gates = SIZE_STACK (*gates);
   size_t size_antecedents = SIZE_STACK (*antecedents);
   size_t size_watches = SIZE_WATCHES (*watches);
-  LOG ("got %zu antecedent %.0f%% and %zu gate clauses %.0f%% "
-       "out of %zu watches of literal %s",
+  LOG ("got %Iu antecedent %.0f%% and %Iu gate clauses %.0f%% "
+       "out of %Iu watches of literal %s",
        size_antecedents, kissat_percent (size_antecedents, size_watches),
        size_gates, kissat_percent (size_gates, size_watches),
        size_watches, LOGLIT (lit));

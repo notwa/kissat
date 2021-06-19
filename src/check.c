@@ -49,7 +49,7 @@ kissat_check_satisfying_assignment (kissat * solver)
       fflush (stderr);
       kissat_abort ();
     }
-  LOG ("assignment satisfies all %zu original clauses", count);
+  LOG ("assignment satisfies all %Iu original clauses", count);
 }
 
 #include "allocate.h"
@@ -155,7 +155,7 @@ init_nonces (kissat * solver, checker * checker)
   generator random = 42;
   for (unsigned i = 0; i < MAX_NONCES; i++)
     checker->nonces[i] = 1 | kissat_next_random32 (&random);
-  LOG3 ("initialized %zu checker nonces", MAX_NONCES);
+  LOG3 ("initialized %Iu checker nonces", MAX_NONCES);
 #ifndef LOGGING
   (void) solver;
 #endif
@@ -659,7 +659,7 @@ import_external_literals (kissat * solver, checker * checker,
 			  size_t size, const int *elits)
 {
   if (size > UINT_MAX)
-    kissat_fatal ("can not check handle original clause of size %zu", size);
+    kissat_fatal ("can not check handle original clause of size %Iu", size);
   CLEAR_STACK (checker->imported);
   for (size_t i = 0; i < size; i++)
     {

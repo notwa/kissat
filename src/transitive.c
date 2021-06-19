@@ -330,7 +330,7 @@ schedule_transitive (kissat * solver, unsigneds * probes)
     if (ACTIVE (idx))
       PUSH_STACK (*probes, idx);
   sort_transitive (solver, probes);
-  kissat_very_verbose (solver, "scheduled %zu transitive probes",
+  kissat_very_verbose (solver, "scheduled %Iu transitive probes",
 		       SIZE_STACK (*probes));
 }
 
@@ -399,7 +399,7 @@ kissat_transitive_reduction (kissat * solver)
       if (!GET_OPTION (transitivekeep))
 	{
 	  kissat_very_verbose (solver,
-			       "dropping remaining %zu transitive candidates",
+			       "dropping remaining %Iu transitive candidates",
 			       remain);
 	  while (!EMPTY_STACK (probes))
 	    {

@@ -124,7 +124,7 @@ kissat_enlarge_variables (kissat * solver, unsigned new_vars)
   const size_t old_size = solver->size;
   if (old_size < new_vars)
     {
-      LOG ("old size %zu below requested new number of variables %u",
+      LOG ("old size %Iu below requested new number of variables %u",
 	   old_size, new_vars);
       size_t new_size;
       if (!old_size)

@@ -504,7 +504,9 @@ parse_options (application * application, int argc, char **argv)
 		ERROR ("multiple '--time=%d' and '%s'",
 		       application->time, arg);
 	      application->time = val;
+#ifndef _WIN32
 	      alarm (val);
+#endif
 	    }
 	  else
 	    ERROR ("invalid argument in '%s' (try '-h')", arg);
@@ -920,7 +922,9 @@ kissat_application (kissat * solver, int argc, char **argv)
 {
   bool cancel_alarm;
   int res = run_application (solver, argc, argv, &cancel_alarm);
+#ifndef _WIN32
   if (cancel_alarm)
     alarm (0);
+#endif
   return res;
 }

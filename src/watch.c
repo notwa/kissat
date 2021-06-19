@@ -151,6 +151,6 @@ kissat_flush_large_connected (kissat * solver)
 	}
       SET_END_OF_WATCHES (*watches, q);
     }
-  LOG ("flushed %zu large clause references", flushed);
+  LOG ("flushed %Iu large clause references", flushed);
   (void) flushed;
 }

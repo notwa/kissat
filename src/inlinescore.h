@@ -14,7 +14,7 @@ kissat_update_variable_score (kissat * solver, heap * schedule, unsigned idx)
   size_t pos = SIZE_WATCHES (WATCHES (lit));
   size_t neg = SIZE_WATCHES (WATCHES (not_lit));
   double new_score = ((double) pos) * neg + pos + neg;
-  LOG ("new elimination score %g for variable %u (pos %zu and neg %zu)",
+  LOG ("new elimination score %g for variable %u (pos %Iu and neg %Iu)",
        new_score, idx, pos, neg);
   kissat_update_heap (solver, schedule, idx, -new_score);
 }

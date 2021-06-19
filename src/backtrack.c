@@ -159,7 +159,7 @@ kissat_backtrack_without_updating_phases (kissat * solver, unsigned new_level)
   (void) unassigned, (void) reassigned;
 
   assert (new_end <= END_ARRAY (solver->trail));
-  LOG ("propagation will resume at trail position %zu",
+  LOG ("propagation will resume at trail position %Iu",
        (size_t) (new_end - trail));
   solver->propagate = new_end;
 

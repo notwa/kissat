@@ -69,7 +69,7 @@ static void
 reset_last_looked_up (kissat * solver, cache * cache)
 {
   assert (cache->looked);
-  LOG ("reset last looked up at cache[%zu]", cache->last_looked_up_position);
+  LOG ("reset last looked up at cache[%Iu]", cache->last_looked_up_position);
   cache->last_looked_up_position = MAX_SIZE_T;
   cache->looked = false;
 #ifndef LOGGING
@@ -87,7 +87,7 @@ kissat_insert_cache (kissat * solver, unsigned unsatisfied)
     {
       if (size)
 	kissat_verbose (solver,
-			"need to release %zu invalid cache lines", size);
+			"need to release %Iu invalid cache lines", size);
       ADD (cache_released, size);
       kissat_release_cache (solver);
       assert (cache->valid);
@@ -137,7 +137,7 @@ kissat_insert_cache (kissat * solver, unsigned unsatisfied)
 
   if (replace && size >= limit)
     {
-      kissat_very_verbose (solver, "keeping cache size %zu "
+      kissat_very_verbose (solver, "keeping cache size %Iu "
 			   "due to limit %u = log2 (%" PRIu64 ")",
 			   size, limit, inserted);
       LOGLINE (replace, "evicting");
@@ -158,7 +158,7 @@ kissat_insert_cache (kissat * solver, unsigned unsatisfied)
     }
   else
     {
-      kissat_very_verbose (solver, "increasing cache size %zu "
+      kissat_very_verbose (solver, "increasing cache size %Iu "
 			   "to limit %u = log2 (%" PRIu64 ")",
 			   size, limit, inserted);
       line line;
@@ -210,14 +210,14 @@ kissat_lookup_cache (kissat * solver)
       return 0;
     }
 #ifndef QUIET
-  kissat_very_verbose (solver, "using assignment cache of size %zu", size);
+  kissat_very_verbose (solver, "using assignment cache of size %Iu", size);
   if (kissat_verbosity (solver) > 2)
     {
       for (size_t i = 0; i < size; i++)
 	{
 	  line *line = &PEEK_STACK (cache->lines, i);
 	  kissat_extremely_verbose (solver,
-				    "cache[%zu] contains "
+				    "cache[%Iu] contains "
 				    "assignment[%" PRIu64 "] "
 				    "unsatisfied %u",
 				    i, line->inserted, line->unsatisfied);
@@ -235,7 +235,7 @@ kissat_lookup_cache (kissat * solver)
 	  const double score = 1.0 / (l->unsatisfied + 1.0);
 	  const double next = sum + score;
 	  kissat_extremely_verbose (solver,
-				    "cache[%zu] score %.7f of "
+				    "cache[%Iu] score %.7f of "
 				    "assignment[%" PRIu64 "] unsatisfied %u "
 				    "in range %.7f ... %.7f", i, score,
 				    l->inserted, l->unsatisfied, sum, next);
@@ -263,7 +263,7 @@ kissat_lookup_cache (kissat * solver)
   else
     pos = kissat_pick_random (&solver->random, 0, size);
 
-  LOG ("looking up line %u in cache of size %zu", pos, size);
+  LOG ("looking up line %u in cache of size %Iu", pos, size);
   line *l = &PEEK_STACK (cache->lines, pos);
   LOGLINE (l, "looked up");
   kissat_very_verbose (solver,
@@ -281,7 +281,7 @@ kissat_lookup_cache (kissat * solver)
 void
 kissat_release_cache (kissat * solver)
 {
-  LOG ("releasing cache of size %zu", SIZE_STACK (solver->cache.lines));
+  LOG ("releasing cache of size %Iu", SIZE_STACK (solver->cache.lines));
   for (all_stack (line, l, solver->cache.lines))
     release_cache_line (solver, &l);
   RELEASE_STACK (solver->cache.lines);

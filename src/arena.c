@@ -46,7 +46,7 @@ kissat_allocate_clause (kissat * solver, size_t size)
 	  assert (kissat_is_zero_or_power_of_two (capacity));
 	  if (capacity == MAX_ARENA)
 	    kissat_fatal ("maximum arena capacity "
-			  "of 2^%u %zu-byte-words %s exhausted"
+			  "of 2^%u %Iu-byte-words %s exhausted"
 #ifdef COMPACT
 			  " (consider a configuration without '--compact')"
 #endif
@@ -65,7 +65,7 @@ kissat_allocate_clause (kissat * solver, size_t size)
       assert (capacity <= MAX_ARENA);
     }
   solver->arena.end += needed;
-  LOG ("allocated clause[%zu] of size %zu bytes %s",
+  LOG ("allocated clause[%Iu] of size %Iu bytes %s",
        res, size, FORMAT_BYTES (bytes));
   return (reference) res;
 }

@@ -393,7 +393,7 @@ init_backbone_and_partition (kissat * solver, sweeper * sweeper)
       PUSH_STACK (sweeper->backbone, candidate);
       PUSH_STACK (sweeper->partition, candidate);
     }
-  LOG ("initialized %zu literals", SIZE_STACK (sweeper->backbone));
+  LOG ("initialized %Iu literals", SIZE_STACK (sweeper->backbone));
   PUSH_STACK (sweeper->partition, INVALID_LIT);
 }
 
@@ -439,7 +439,7 @@ sweep_refine_partition (kissat * solver, sweeper * sweeper)
 	    }
 	}
 #ifdef LOGGING
-      LOG ("refining class %u of size %zu", old_classes, (size_t) (q - p));
+      LOG ("refining class %u of size %Iu", old_classes, (size_t) (q - p));
       old_classes++;
 #endif
       if (assigned_true == 0)
@@ -529,7 +529,7 @@ sweep_refine_backbone (kissat * solver, sweeper * sweeper)
   SET_END_OF_STACK (sweeper->backbone, q);
 #ifdef LOGGING
   size_t new_size = SIZE_STACK (sweeper->backbone);
-  LOG ("refined %zu backbone candidates into %zu", old_size, new_size);
+  LOG ("refined %Iu backbone candidates into %Iu", old_size, new_size);
 #endif
 }
 
@@ -748,7 +748,7 @@ sweep_variable (kissat * solver, sweeper * sweeper, unsigned idx)
       expand++;
     }
 #if 0
-  LOG ("sweeper environment has %zu variables", SIZE_STACK (sweeper->vars));
+  LOG ("sweeper environment has %Iu variables", SIZE_STACK (sweeper->vars));
   LOG ("sweeper environment has %u clauses", sweeper->encoded);
   LOG ("sweeper environment depth of %u generations", depth);
 #elif !defined(QUIET)
@@ -756,7 +756,7 @@ sweep_variable (kissat * solver, sweeper * sweeper, unsigned idx)
     int elit = kissat_export_literal (solver, LIT (idx));
     kissat_extremely_verbose (solver,
 			      "variable %d environment of "
-			      "%zu variables %u clauses depth %u",
+			      "%Iu variables %u clauses depth %u",
 			      elit, SIZE_STACK (sweeper->vars),
 			      sweeper->encoded, depth);
   }
@@ -896,7 +896,7 @@ schedule_sweeping (kissat * solver, sweeper * sweeper)
 	  const size_t neg = SIZE_WATCHES (WATCHES (not_lit));
 	  if (pos + neg > max_occurrences)
 	    continue;
-	  LOG ("scheduling %s with %zu + %zu occurrences",
+	  LOG ("scheduling %s with %Iu + %Iu occurrences",
 	       LOGVAR (idx), pos, neg);
 	  PUSH_STACK (sweeper->schedule, idx);
 #ifndef QUIET

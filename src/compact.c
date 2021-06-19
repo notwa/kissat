@@ -394,7 +394,7 @@ compact_cache (kissat * solver, unsigned new_vars)
       LOG ("not compacting invalid cache");
       return;
     }
-  LOG ("compacting cache of size %zu over %u variables",
+  LOG ("compacting cache of size %Iu over %u variables",
        SIZE_STACK (cache->lines), cache->vars);
   const line *const end = END_STACK (cache->lines);
   line *begin = BEGIN_STACK (cache->lines);

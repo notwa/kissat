@@ -170,7 +170,7 @@ schedule_variables (kissat * solver)
 #ifndef QUIET
   size_t active = solver->active;
   kissat_phase (solver, "eliminate", GET (eliminations),
-		"scheduled %zu variables %.0f%%",
+		"scheduled %Iu variables %.0f%%",
 		scheduled, kissat_percent (scheduled, active));
 #endif
   return scheduled;
@@ -186,7 +186,7 @@ kissat_flush_units_while_connected (kissat * solver)
   if (!units)
     return;
 #ifdef LOGGING
-  LOG ("propagating and flushing %zu units", units);
+  LOG ("propagating and flushing %Iu units", units);
 #endif
   if (!kissat_dense_propagate (solver))
     return;
@@ -227,7 +227,7 @@ kissat_flush_units_while_connected (kissat * solver)
       size_t flushed = end - q;
       if (!flushed)
 	continue;
-      LOG ("flushing %zu references satisfied by %s", flushed, LOGLIT (unit));
+      LOG ("flushing %Iu references satisfied by %s", flushed, LOGLIT (unit));
       SET_END_OF_WATCHES (*unit_watches, q);
     }
 }

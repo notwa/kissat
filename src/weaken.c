@@ -33,7 +33,7 @@ push_clause_literal (kissat * solver, unsigned ilit)
 #define LOGPUSHED(SIZE) \
 do { \
   LOGEXT ((SIZE), END_STACK (solver->extend) - (SIZE), \
-          "pushed size %zu witness labelled clause at", (size_t) (SIZE)); \
+          "pushed size %Iu witness labelled clause at", (size_t) (SIZE)); \
 } while (0)
 
 void

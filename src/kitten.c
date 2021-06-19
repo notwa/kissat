@@ -6,7 +6,7 @@
 #include <inttypes.h>
 #include <limits.h>
 #include <stdarg.h>
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,7 +64,7 @@ kitten_calloc (size_t n, size_t size)
 {
   void *res = calloc (n, size);
   if (n && size && !res)
-    die ("out of memory allocating '%zu * %zu' bytes", n, size);
+    die ("out of memory allocating '%Iu * %Iu' bytes", n, size);
   return res;
 }
 
@@ -82,7 +82,7 @@ do { \
   const size_t BYTES = NEW_CAPACITY * sizeof *(S).begin; \
   (S).begin = realloc ((S).begin, BYTES); \
   if (!(S).begin) \
-    die ("out of memory reallocating '%zu' bytes", BYTES); \
+    die ("out of memory reallocating '%Iu' bytes", BYTES); \
   (S).allocated = (S).begin + NEW_CAPACITY; \
   (S).end = (S).begin + SIZE; \
 } while (0)
@@ -533,7 +533,7 @@ init_queue (kitten * kitten, size_t old_vars, size_t new_vars)
       kitten->unassigned++;
       enqueue (kitten, idx);
     }
-  LOG ("initialized decision queue from %zu to %zu", old_vars, new_vars);
+  LOG ("initialized decision queue from %Iu to %Iu", old_vars, new_vars);
   update_search (kitten, kitten->queue.last);
   check_queue (kitten);
 }
@@ -602,7 +602,7 @@ enlarge_internal (kitten * kitten, size_t lit)
       size_t new_size = old_size ? 2 * old_size : 2;
       while (new_size <= lit)
 	new_size *= 2;
-      LOG ("internal literals resized to %zu from %zu (requested %zu)",
+      LOG ("internal literals resized to %Iu from %Iu (requested %Iu)",
 	   new_size, old_size, new_lits);
 
       RESIZE1 (kitten->marks);
@@ -617,7 +617,7 @@ enlarge_internal (kitten * kitten, size_t lit)
     }
   kitten->lits = new_lits;
   init_queue (kitten, old_vars, new_vars);
-  LOG ("internal literals activated until %zu literals", new_lits);
+  LOG ("internal literals activated until %Iu literals", new_lits);
   return;
 }
 
@@ -933,7 +933,7 @@ enlarge_external (kitten * kitten, size_t eidx)
       size_t new_size = old_size ? 2 * old_size : 1;
       while (new_size <= eidx)
 	new_size *= 2;
-      LOG ("external resizing to %zu variables from %zu (requested %u)",
+      LOG ("external resizing to %Iu variables from %Iu (requested %u)",
 	   new_size, old_size, new_evars);
       unsigned *old_import = kitten->import;
       CALLOC (kitten->import, new_size);
@@ -1007,7 +1007,7 @@ new_learned_klause (kitten * kitten)
 void
 kitten_clear (kitten * kitten)
 {
-  LOG ("clear kitten of size %zu", kitten->size);
+  LOG ("clear kitten of size %Iu", kitten->size);
 
   assert (EMPTY_STACK (kitten->analyzed));
   assert (EMPTY_STACK (kitten->eclause));
@@ -1620,7 +1620,7 @@ propagate_units (kitten * kitten)
       return 0;
     }
 
-  LOG ("propagating %zu root level unit clauses", SIZE_STACK (kitten->units));
+  LOG ("propagating %Iu root level unit clauses", SIZE_STACK (kitten->units));
 
   const value *const values = kitten->values;
 
@@ -1700,14 +1700,14 @@ reset_core (kitten * kitten)
   for (all_klauses (c))
     if (is_core_klause (c))
       unset_core_klause (c), reset++;
-  LOG ("reset %zu core clauses", reset);
+  LOG ("reset %Iu core clauses", reset);
   CLEAR_STACK (kitten->core);
 }
 
 static void
 reset_assumptions (kitten * kitten)
 {
-  LOG ("reset %zu assumptions", SIZE_STACK (kitten->assumptions));
+  LOG ("reset %Iu assumptions", SIZE_STACK (kitten->assumptions));
   while (!EMPTY_STACK (kitten->assumptions))
     {
       const unsigned assumption = POP_STACK (kitten->assumptions);
@@ -1808,7 +1808,7 @@ kitten_solve (kitten * kitten)
   if (kitten->status)
     reset_incremental (kitten);
 
-  LOG ("solving start under %zu assumptions",
+  LOG ("solving start under %Iu assumptions",
        SIZE_STACK (kitten->assumptions));
 
   INC (kitten_solved);
@@ -1890,7 +1890,7 @@ kitten_compute_clausal_core (kitten * kitten, uint64_t * learned_ptr)
       if (c_ref == INVALID)
 	{
 	  const unsigned d_ref = POP_STACK (*resolved);
-	  ROG (d_ref, "core[%zu]", SIZE_STACK (*core));
+	  ROG (d_ref, "core[%Iu]", SIZE_STACK (*core));
 	  PUSH_STACK (*core, d_ref);
 	  klause *d = dereference_klause (kitten, d_ref);
 	  assert (!is_core_klause (d));
@@ -2071,7 +2071,7 @@ kitten_shrink_to_clausal_core (kitten * kitten)
     }
   SET_END_OF_STACK (kitten->klauses, (unsigned *) q);
   kitten->end_original_ref = SIZE_STACK (kitten->klauses);
-  LOG ("end of original clauses at %zu", kitten->end_original_ref);
+  LOG ("end of original clauses at %Iu", kitten->end_original_ref);
   LOG ("%u original clauses left", original);
 
   CLEAR_STACK (kitten->core);
@@ -2463,7 +2463,7 @@ static void
 write_core (kitten * kitten, unsigned reduced, ints * originals, FILE * file)
 {
   assert (originals);
-  fprintf (file, "p cnf %zu %u\n", kitten->evars, reduced);
+  fprintf (file, "p cnf %Iu %u\n", kitten->evars, reduced);
   core_writer writer;
   writer.file = file;
   writer.originals = originals;
@@ -2742,7 +2742,7 @@ main (int argc, char **argv)
     }
   if (!EMPTY_STACK (assumptions))
     {
-      msg ("assuming %zu assumptions", SIZE_STACK (assumptions));
+      msg ("assuming %Iu assumptions", SIZE_STACK (assumptions));
       for (all_stack (int, ilit, assumptions))
 	{
 	  unsigned ulit = 2u * (abs (ilit) - 1) + (ilit < 0);

@@ -1,7 +1,7 @@
 #ifndef _limits_h_INCLUDED
 #define _limits_h_INCLUDED
 
-#include <stdbool.h>
+#include "badbool.h"
 #include <stdint.h>
 
 typedef struct bounds bounds;
