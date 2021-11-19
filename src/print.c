@@ -64,7 +64,9 @@ static const char *sig_name(int sig) {
   case SIGINT:  return "SIGINT";
   case SIGSEGV: return "SIGSEGV";
   case SIGTERM: return "SIGTERM";
+#ifndef _WIN32
   case SIGALRM: return "SIGALRM";
+#endif
   default: return "SIGUNKNOWN";
   }
 }
